@@ -15,6 +15,14 @@ function App() {
     }
   };
 
+  const handleDownload = () => {
+    qrRef.current?.download({
+      name: "qr-code",
+      format: "png",
+      size: 1000,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-linear-to-r/hsl from-indigo-500 to-teal-400 p-4 flex items-center justify-center">
       <div className="w-full max-w-4xl flex flex-col md:flex-row items-center md:items-center justify-center md:justify-between gap-8">
@@ -28,7 +36,7 @@ function App() {
           </h1>
           <Input
             type="url"
-            placeholder="Enter link of the website"
+            placeholder="Enter link of your website"
             value={url}
             onChange={(e) => {
               setUrl(e.target.value);
@@ -61,6 +69,15 @@ function App() {
                   background="#FFFFFF"
                 />
               </div>
+              <Button
+                color="primary"
+                variant="shadow"
+                size="lg"
+                onPress={handleDownload}
+                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:opacity-90"
+              >
+                Download QR Code
+              </Button>
             </CardBody>
           </Card>
         )}
