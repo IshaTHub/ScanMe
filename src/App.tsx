@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { ReactQRCode, type ReactQRCodeRef } from "@lglab/react-qr-code";
 import { Card, CardBody, Input, Button } from "@heroui/react";
+import { addToast } from "@heroui/toast";
 
 function App() {
   const [url, setUrl] = useState("");
@@ -10,7 +11,19 @@ function App() {
   const handleGenerate = () => {
     if (url) {
       setShowQR(true);
+      addToast({
+        title: "QR Code Generated!",
+        description: "Your QR code is ready to download",
+        variant: "bordered",
+        color: "success",
+      });
     } else {
+      addToast({
+        title: "Error",
+        description: "Please enter a valid URL",
+        variant: "bordered",
+        color: "danger",
+      });
       setShowQR(false);
     }
   };
@@ -21,6 +34,12 @@ function App() {
       format: "png",
       size: 1000,
     });
+    addToast({
+      title: "Success!",
+      description: "QR code downloaded successfully",
+      variant: "bordered",
+      color: "success",
+    });
   };
 
   return (
@@ -29,14 +48,14 @@ function App() {
         {/* Left side: Input and button */}
         <div className="flex flex-col items-center md:items-start gap-4 text-center md:text-left md:w-1/2">
           <h1
-            className="text-6xl font-bold text-white"
+            className="text-2xl font-bold text-white"
             style={{ fontFamily: "'Pacifico', cursive" }}
           >
             ScanMe
           </h1>
           <Input
             type="url"
-            placeholder="Enter link of your website"
+            placeholder="Enter link of the website"
             value={url}
             onChange={(e) => {
               setUrl(e.target.value);
