@@ -1,23 +1,35 @@
 import { useState, useRef } from "react";
 import { ReactQRCode, type ReactQRCodeRef } from "@lglab/react-qr-code";
 import { Card, CardBody, Input, Button } from "@heroui/react";
-import { addToast } from "@heroui/toast";
+import { addToast } from "@heroui/react";
 
 function App() {
   const [url, setUrl] = useState("");
   const [showQR, setShowQR] = useState(false);
   const qrRef = useRef<ReactQRCodeRef>(null);
 
+  const isValidUrl = (string: string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   const handleGenerate = () => {
-    if (url) {
-      setShowQR(true);
+    if (!url) {
       addToast({
-        title: "QR Code Generated!",
-        description: "Your QR code is ready to download",
+        title: "Error",
+        description: "Please enter a URL",
         variant: "bordered",
-        color: "success",
+        color: "danger",
       });
-    } else {
+      setShowQR(false);
+      return;
+    }
+
+    if (!isValidUrl(url)) {
       addToast({
         title: "Error",
         description: "Please enter a valid URL",
@@ -25,7 +37,16 @@ function App() {
         color: "danger",
       });
       setShowQR(false);
+      return;
     }
+
+    setShowQR(true);
+    addToast({
+      title: "Success!",
+      description: "QR code generated successfully!!",
+      color: "success",
+      variant: "bordered",
+    });
   };
 
   const handleDownload = () => {
@@ -43,12 +64,12 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-r/hsl from-indigo-500 to-teal-400 p-4 flex items-center justify-center">
+    <div className="min-h-screen bg-radial-[at_25%_25%] from-white to-zinc-900 to-75% p-4 flex items-center justify-center">
       <div className="w-full max-w-4xl flex flex-col md:flex-row items-center md:items-center justify-center md:justify-between gap-8">
         {/* Left side: Input and button */}
         <div className="flex flex-col items-center md:items-start gap-4 text-center md:text-left md:w-1/2">
           <h1
-            className="text-2xl font-bold text-white"
+            className="text-2xl font-extrabold text-zinc-900"
             style={{ fontFamily: "'Pacifico', cursive" }}
           >
             ScanMe
@@ -61,7 +82,7 @@ function App() {
               setUrl(e.target.value);
               setShowQR(false);
             }}
-            className="w-full max-w-md bg-white/20 backdrop-blur-sm text-white placeholder:text-white/70 border-2 border-white/30 focus:border-white"
+            className="w-full max-w-md bg-white/60 text-zinc-900 placeholder:text-zinc-700 border-2 border-zinc-500 focus:border-zinc-700 focus:bg-white/80 backdrop-blur-sm rounded-md p-2"
             size="lg"
           />
           <Button

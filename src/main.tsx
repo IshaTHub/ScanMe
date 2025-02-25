@@ -7,9 +7,7 @@ import { HeroUIProvider } from "@heroui/react";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <HeroUIProvider>
-      <ToastProvider />
-      {<App />}
-    </HeroUIProvider>
+    <ToastProvider />
+    <HeroUIProvider>{<App />}</HeroUIProvider>
   </StrictMode>
 );
