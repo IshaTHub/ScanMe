@@ -10,8 +10,8 @@ function App() {
 
   const isValidUrl = (string: string) => {
     try {
-      new URL(string);
-      return true;
+      const newUrl = new URL(string);
+      return /^(https?:\/\/)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(newUrl.href);
     } catch {
       return false;
     }
@@ -82,7 +82,7 @@ function App() {
               setUrl(e.target.value);
               setShowQR(false);
             }}
-            className="w-full max-w-md bg-white/60 text-zinc-900 placeholder:text-zinc-700 border-2 border-zinc-500 focus:border-zinc-700 focus:bg-white/80 backdrop-blur-sm rounded-md p-2"
+            className="w-full max-w-md bg-white/60 text-zinc-900 placeholder:text-zinc-700 border-2 border-zinc-500 focus:border-black-500 focus:bg-black/80 backdrop-blur-sm rounded-md p-2"
             size="lg"
           />
           <Button
